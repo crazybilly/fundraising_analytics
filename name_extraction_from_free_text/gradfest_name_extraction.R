@@ -3,7 +3,7 @@ library(stringr)
 library(RCurl)  ## this is only needed if pulling in the sample data via URL
 
 ## set directory
-setwd("C:/Users/pawlusm/Desktop")
+#setwd("C:/Users/pawlusm/Desktop")
 
 #  ## read file  (if you are using your own data -- just change the file name)
 #  ## if you want to use this script with no edits then give your free text header the column name: fs_comm
@@ -26,11 +26,13 @@ two.words <- str_extract_all(words, names)
 ## list to vector
 two.words <- unlist(two.words)
 
-## remove NAs
-two.words <- two.words[!(is.na(two.words))] 
+## remove NAs and empty strings
+two.words <- two.words[ !is.na(two.words) & two.words != "" ] 
+
+
 
 ## create data frame out of frequency table of unique words
-two.tbl <- as.data.frame(table(two.words))  
+two.tbl <- as.data.frame(table(two.words), stringsAsFactors = F)  
 
 ## subset by some frequency cutoff
 top.profs <- two.tbl[which(two.tbl$Freq>3),]
